@@ -18,7 +18,7 @@
       --border:#2A2A2E;--border2:#222226;
       --text:#F4F3F0;--sub:#A0A0A8;--muted:#64646C;--faint:#48484F;
       --row-a:#111113;--row-b:#16161A;--tag-bg:rgba(255,255,255,0.07);
-      --day-color:#C8E600;
+      --day-color:#C8E600;--accent:#C8E600;
       --tr:background 0.22s ease,color 0.22s ease,border-color 0.22s ease;
     }
     :root.light{
@@ -39,20 +39,61 @@
     .splash-dot{width:6px;height:6px;border-radius:50%;background:#C8E600;animation:pulse 1.2s ease-in-out infinite}
     @keyframes pulse{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1)}}
 
+    /* ONBOARDING */
+    #onboard{position:fixed;inset:0;z-index:160;background:var(--bg);display:flex;flex-direction:column;justify-content:center;max-width:480px;margin:0 auto;padding:32px 26px calc(34px + env(safe-area-inset-bottom));transition:opacity 0.35s ease}
+    #onboard.hide{opacity:0;pointer-events:none}
+    .ob-icon svg{width:52px;height:52px;margin-bottom:22px}
+    .ob-h{font-size:26px;font-weight:800;letter-spacing:-0.6px;margin-bottom:6px}
+    .ob-p{font-size:13px;color:var(--sub);line-height:1.55;margin-bottom:26px}
+    .lbl{display:block;font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin:0 2px 9px}
+    .field{width:100%;padding:15px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:13px;color:var(--text);font-size:16px;font-family:inherit;font-weight:600;outline:none;transition:var(--tr)}
+    .field::placeholder{color:var(--faint);font-weight:500}
+    .field:focus{border-color:var(--accent)}
+    .gap{height:22px}
+
+    /* SEGMENTED CONTROL */
+    .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:6px;transition:var(--tr)}
+    .seg button{padding:13px 6px;border:none;border-radius:9px;background:transparent;color:var(--sub);font-family:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:background 0.18s,color 0.18s}
+    .seg button span:first-child{font-size:15px;font-weight:800;letter-spacing:-0.2px}
+    .seg .seg-sub{font-size:9px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;opacity:0.75}
+    .seg button.on{background:var(--accent);color:#000}
+    .hint{font-size:11px;color:var(--muted);margin:11px 2px 0;display:flex;align-items:center;gap:6px}
+    .hint b{color:var(--sub);font-weight:700}
+
+    .btn-primary{width:100%;padding:16px;border:none;border-radius:14px;background:var(--accent);color:#000;font-weight:800;font-size:15px;font-family:inherit;cursor:pointer;letter-spacing:0.2px;transition:opacity 0.18s}
+    .btn-primary:disabled{opacity:0.35;cursor:not-allowed}
+    .btn-ghost{width:100%;padding:14px;border:1px solid var(--border);border-radius:14px;background:transparent;color:var(--sub);font-weight:700;font-size:14px;font-family:inherit;cursor:pointer;transition:var(--tr)}
+
+    /* SETTINGS OVERLAY */
+    .overlay{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,0.55);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s ease}
+    .overlay.show{opacity:1;pointer-events:auto}
+    .sheet{width:100%;max-width:480px;background:var(--bg);border-top:1px solid var(--border);border-radius:22px 22px 0 0;padding:10px 22px calc(26px + env(safe-area-inset-bottom));transform:translateY(20px);transition:transform 0.28s cubic-bezier(.2,.8,.2,1);max-height:90dvh;overflow-y:auto}
+    .overlay.show .sheet{transform:translateY(0)}
+    .sheet::-webkit-scrollbar{display:none}
+    .grab{width:38px;height:4px;border-radius:4px;background:var(--border);margin:0 auto 18px}
+    .sheet-title{font-size:19px;font-weight:800;letter-spacing:-0.3px;margin-bottom:22px}
+    .theme-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:13px;transition:var(--tr)}
+    .theme-row span{font-size:14px;font-weight:600}
+    .mini-toggle{display:flex;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:4px}
+    .mini-toggle button{padding:7px 13px;border:none;border-radius:6px;background:transparent;color:var(--sub);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr)}
+    .mini-toggle button.on{background:var(--accent);color:#000}
+
     /* LAYOUT */
     #app{max-width:480px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
 
     /* HEADER */
     .header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px 14px;padding-top:calc(16px + env(safe-area-inset-top));border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:10;transition:var(--tr)}
-    .h-left .eyebrow{font-size:10px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-    .h-left .title{font-size:21px;font-weight:800;letter-spacing:-0.4px}
-    .toggle-btn{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 13px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--sub);transition:var(--tr)}
+    .h-left{min-width:0}
+    .h-left .eyebrow{font-size:10px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .h-left .title{font-size:21px;font-weight:800;letter-spacing:-0.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .h-actions{display:flex;gap:8px;flex-shrink:0;margin-left:12px}
+    .icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);border-radius:11px;cursor:pointer;font-size:16px;color:var(--sub);transition:var(--tr)}
 
     /* SCHEDULE STRIP */
-    .schedule-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+    .schedule-strip{display:grid;gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
     .sched-day{padding:10px 6px;background:var(--surface);text-align:center;transition:var(--tr)}
     .sched-day .sd-day{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
-    .sched-day .sd-name{font-size:11px;font-weight:600;color:var(--sub)}
+    .sched-day .sd-name{font-size:11px;font-weight:600;color:var(--sub);line-height:1.2}
     .sched-day.highlight .sd-day{color:var(--day-color)}
     .sched-day.highlight .sd-name{color:var(--text)}
 
@@ -63,8 +104,8 @@
     .legend-label{font-size:10px;font-weight:600;color:var(--sub)}
 
     /* DAY TABS */
-    .day-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
-    .day-tab{padding:11px 4px;background:var(--surface);color:var(--muted);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;font-size:11px;transition:background 0.15s,color 0.15s;display:flex;flex-direction:column;align-items:center;gap:2px}
+    .day-tabs{display:grid;gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+    .day-tab{padding:11px 3px;background:var(--surface);color:var(--muted);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;font-size:11px;transition:background 0.15s,color 0.15s;display:flex;flex-direction:column;align-items:center;gap:2px}
     .day-tab.active{color:#000}
     .day-tab .tab-sub{font-size:8px;font-weight:600;letter-spacing:0.5px;opacity:0.65;text-transform:uppercase}
 
@@ -101,6 +142,7 @@
     .notes{margin:12px 20px 28px;border:1px solid var(--border);border-radius:10px;padding:16px;background:var(--surface);transition:var(--tr)}
     .notes-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
     .note-item{display:flex;gap:10px;margin-bottom:9px;font-size:12px;color:var(--sub);line-height:1.65}
+    .note-item:last-child{margin-bottom:0}
     .note-dash{font-weight:700;flex-shrink:0}
 
     .scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -120,20 +162,79 @@
     </svg>
   </div>
   <div class="splash-title">Workout</div>
-  <div class="splash-sub">4-Day Split</div>
+  <div class="splash-sub" id="splash-sub">Personal Split</div>
   <div class="splash-dot"></div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboard" class="hide">
+  <div class="ob-icon">
+    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="28" y="31" width="16" height="10" rx="2" fill="#C8E600"/>
+      <rect x="6" y="24" width="10" height="24" rx="3" fill="#C8E600"/>
+      <rect x="16" y="28" width="12" height="16" rx="2" fill="#C8E600"/>
+      <rect x="56" y="24" width="10" height="24" rx="3" fill="#C8E600"/>
+      <rect x="44" y="28" width="12" height="16" rx="2" fill="#C8E600"/>
+    </svg>
+  </div>
+  <div class="ob-h">Let's set you up</div>
+  <div class="ob-p">A few quick details and your personal training week is ready.</div>
+
+  <label class="lbl">What should we call you?</label>
+  <input class="field" id="ob-name" type="text" autocomplete="given-name" placeholder="Your name"
+    oninput="document.getElementById('ob-go').disabled=!this.value.trim()"
+    onkeydown="if(event.key==='Enter'&&this.value.trim())completeOnboarding()"/>
+
+  <div class="gap"></div>
+
+  <label class="lbl">Pick your weekly split</label>
+  <div class="seg" id="ob-seg"></div>
+  <div class="hint">⟳ <span>Every split trains <b>each muscle 2× a week</b></span></div>
+
+  <div class="gap"></div>
+  <button class="btn-primary" id="ob-go" disabled onclick="completeOnboarding()">Get Started</button>
+</div>
+
+<!-- SETTINGS -->
+<div class="overlay" id="settings" onclick="if(event.target===this)closeSettings()">
+  <div class="sheet">
+    <div class="grab"></div>
+    <div class="sheet-title">Settings</div>
+
+    <label class="lbl">Your name</label>
+    <input class="field" id="set-name" type="text" autocomplete="given-name" placeholder="Your name"/>
+
+    <div class="gap"></div>
+    <label class="lbl">Weekly split</label>
+    <div class="seg" id="set-seg"></div>
+
+    <div class="gap"></div>
+    <label class="lbl">Appearance</label>
+    <div class="theme-row">
+      <span>Theme</span>
+      <div class="mini-toggle" id="set-theme">
+        <button data-t="dark" onclick="pickTheme('dark')">Dark</button>
+        <button data-t="light" onclick="pickTheme('light')">Light</button>
+      </div>
+    </div>
+
+    <div class="gap"></div>
+    <button class="btn-primary" onclick="saveSettings()">Save</button>
+    <div style="height:10px"></div>
+    <button class="btn-ghost" onclick="closeSettings()">Cancel</button>
+  </div>
 </div>
 
 <div id="app">
   <div class="header">
     <div class="h-left">
-      <div class="eyebrow">Upper / Lower · 4 Days / Week</div>
-      <div class="title">Strength + Hypertrophy</div>
+      <div class="eyebrow" id="eyebrow"></div>
+      <div class="title" id="title"></div>
     </div>
-    <button class="toggle-btn" onclick="toggleTheme()">
-      <span id="theme-icon">☀︎</span>
-      <span id="theme-label">Light</span>
-    </button>
+    <div class="h-actions">
+      <button class="icon-btn" aria-label="Settings" onclick="openSettings()">⚙︎</button>
+      <button class="icon-btn" aria-label="Theme" onclick="toggleTheme()"><span id="theme-icon">☀︎</span></button>
+    </div>
   </div>
 
   <div class="scroll-area">
@@ -151,13 +252,7 @@
       <span id="total-val" style="color:var(--day-color)"></span>
     </div>
     <div class="recovery" id="recovery-box"></div>
-    <div class="notes">
-      <div class="notes-title">Protocol Notes</div>
-      <div class="note-item"><span class="note-dash" style="color:var(--day-color)">—</span><span>Strength days (A): heavy, low reps, long rest. Hypertrophy days (B): moderate weight, higher reps</span></div>
-      <div class="note-item"><span class="note-dash" style="color:var(--day-color)">—</span><span>Progressive overload: add weight when you hit the top of the rep range for all sets</span></div>
-      <div class="note-item"><span class="note-dash" style="color:var(--day-color)">—</span><span>Rest at least 1 day between sessions — Wed and Sat are off days</span></div>
-      <div class="note-item"><span class="note-dash" style="color:var(--day-color)">—</span><span>Warm up 5–10 min + 2 light sets before each main compound lift</span></div>
-    </div>
+    <div class="notes" id="notes-box"></div>
   </div>
 </div>
 
@@ -168,95 +263,199 @@ const muscleColor={
   QUADS:"#A78BFA",HAMSTRINGS:"#C084FC",GLUTES:"#E879F9",CALVES:"#818CF8"
 };
 
-const schedule=[
-  {day:"MON",name:"Upper A",id:"UA"},
-  {day:"TUE",name:"Lower A",id:"LA"},
-  {day:"THU",name:"Upper B",id:"UB"},
-  {day:"FRI",name:"Lower B",id:"LB"}
-];
+const ABBR={Monday:"MON",Tuesday:"TUE",Wednesday:"WED",Thursday:"THU",Friday:"FRI",Saturday:"SAT",Sunday:"SUN"};
 
 const recovery=[
-  {icon:"🥛",title:"Post-workout meal",text:"Keep it light — 30–40g protein, low carb. Protein shake + banana or Greek yogurt. Avoid heavy meals that spike digestion and disrupt sleep."},
-  {icon:"💊",title:"Magnesium glycinate",text:"200–400mg before bed — helps muscle recovery AND improves sleep quality after evening training."},
-  {icon:"🧘",title:"Wind-down routine",text:"10 min of light stretching or foam rolling after your shower — signals your nervous system to shift into recovery mode."}
+  {icon:"🍗",title:"Hit your protein",text:"Aim for roughly 1.6–2.2 g of protein per kg of bodyweight each day, spread across meals — it's the raw material your muscles rebuild with."},
+  {icon:"😴",title:"Sleep 7–9 hours",text:"Muscle is built while you rest, not while you train. Consistent, quality sleep is where the work actually pays off."},
+  {icon:"🚶",title:"Active recovery",text:"On rest days keep moving — a walk, light stretching or foam rolling boosts blood flow and speeds recovery without adding fatigue."}
 ];
 
-const days=[
-  {
-    id:"UA",label:"Upper A",theme:"#C8E600",sub:"Strength",day:"Monday",
-    note:"Heavy compounds, low reps — your body is at peak strength.",
-    badge:"STRENGTH",badgeBg:"rgba(200,230,0,0.15)",badgeColor:"#C8E600",
-    exercises:[
-      {muscle:"CHEST",    name:"Barbell Bench Press",      sets:4,reps:"5–6",  rest:"2 min"},
-      {muscle:"BACK",     name:"Barbell Row",              sets:4,reps:"5–6",  rest:"2 min"},
-      {muscle:"SHOULDERS",name:"Overhead Press",           sets:3,reps:"6–8",  rest:"90s"},
-      {muscle:"BACK",     name:"Pull-Ups / Lat Pulldown",  sets:3,reps:"6–8",  rest:"90s"},
-      {muscle:"BICEPS",   name:"Barbell or EZ-Bar Curl",   sets:3,reps:"8",    rest:"75s"},
-      {muscle:"TRICEPS",  name:"Skull Crushers",           sets:3,reps:"8",    rest:"75s"},
+/* ===== ROUTINES — every split trains each muscle 2× per week ===== */
+const ROUTINES={
+  "3":{
+    splitName:"3-Day Split",
+    eyebrow:"3-DAY · FULL BODY + U/L",
+    days:[
+      {id:"FB",label:"Full Body",theme:"#C8E600",sub:"Strength",day:"Monday",badge:"FULL BODY",
+       note:"One big compound day — every major muscle gets its first hit of the week.",
+       ex:[
+         {m:"QUADS",     n:"Barbell Back Squat",      s:4,r:"6–8",   rest:"2 min"},
+         {m:"CHEST",     n:"Barbell Bench Press",     s:4,r:"6–8",   rest:"2 min"},
+         {m:"BACK",      n:"Barbell Row",             s:4,r:"6–8",   rest:"90s"},
+         {m:"SHOULDERS", n:"Overhead Press",          s:3,r:"8–10",  rest:"90s"},
+         {m:"HAMSTRINGS",n:"Romanian Deadlift",       s:3,r:"8–10",  rest:"90s"},
+         {m:"BICEPS",    n:"EZ-Bar Curl",             s:2,r:"10–12", rest:"60s"},
+         {m:"TRICEPS",   n:"Triceps Pushdown",        s:2,r:"10–12", rest:"60s"},
+         {m:"CALVES",    n:"Standing Calf Raise",     s:3,r:"12–15", rest:"45s"},
+       ]},
+      {id:"U3",label:"Upper",theme:"#3DDBA8",sub:"Hypertrophy",day:"Wednesday",badge:"HYPERTROPHY",
+       note:"Second upper-body hit — moderate weight, higher reps to build the torso and arms.",
+       ex:[
+         {m:"CHEST",     n:"Incline Dumbbell Press",      s:4,r:"8–10",  rest:"90s"},
+         {m:"BACK",      n:"Lat Pulldown",                s:4,r:"10–12", rest:"75s"},
+         {m:"SHOULDERS", n:"Seated DB Shoulder Press",    s:3,r:"10–12", rest:"75s"},
+         {m:"BACK",      n:"Seated Cable Row",            s:3,r:"10–12", rest:"75s"},
+         {m:"SHOULDERS", n:"Dumbbell Lateral Raises",     s:3,r:"12–15", rest:"45s"},
+         {m:"BICEPS",    n:"Dumbbell Curl",               s:3,r:"10–12", rest:"60s"},
+         {m:"TRICEPS",   n:"Overhead Tricep Extension",   s:3,r:"12–15", rest:"60s"},
+       ]},
+      {id:"L3",label:"Lower",theme:"#818CF8",sub:"Hypertrophy",day:"Friday",badge:"HYPERTROPHY",
+       note:"Second lower-body hit — quads, hamstrings, glutes and calves with focused volume.",
+       ex:[
+         {m:"QUADS",     n:"Leg Press",               s:4,r:"8–10",      rest:"90s"},
+         {m:"HAMSTRINGS",n:"Lying Leg Curl",          s:4,r:"10–12",     rest:"75s"},
+         {m:"GLUTES",    n:"Bulgarian Split Squat",   s:3,r:"10–12 each",rest:"90s"},
+         {m:"QUADS",     n:"Leg Extension",           s:3,r:"12–15",     rest:"60s"},
+         {m:"CALVES",    n:"Seated Calf Raise",       s:4,r:"12–15",     rest:"45s"},
+         {m:"ABS",       n:"Hanging Leg Raises",      s:3,r:"12",        rest:"45s"},
+         {m:"ABS",       n:"Cable Crunch",            s:3,r:"15",        rest:"45s"},
+       ]},
     ]
   },
-  {
-    id:"LA",label:"Lower A",theme:"#FF6B6B",sub:"Strength",day:"Tuesday",
-    note:"Heavy lower compounds — squat and hinge strength focus.",
-    badge:"STRENGTH",badgeBg:"rgba(255,107,107,0.15)",badgeColor:"#FF6B6B",
-    exercises:[
-      {muscle:"QUADS",    name:"Barbell Back Squat",       sets:4,reps:"5–6",  rest:"2 min"},
-      {muscle:"HAMSTRINGS",name:"Romanian Deadlift",       sets:4,reps:"6–8",  rest:"90s"},
-      {muscle:"QUADS",    name:"Leg Press",                sets:3,reps:"8–10", rest:"90s"},
-      {muscle:"CALVES",   name:"Calf Raises",              sets:4,reps:"12–15",rest:"60s"},
-      {muscle:"ABS",      name:"Hanging Leg Raises",       sets:3,reps:"12",   rest:"45s"},
-      {muscle:"ABS",      name:"Plank",                    sets:3,reps:"45 sec",rest:"30s"},
+
+  "4":{
+    splitName:"4-Day Split",
+    eyebrow:"4-DAY · UPPER / LOWER",
+    days:[
+      {id:"UA",label:"Upper A",theme:"#C8E600",sub:"Strength",day:"Monday",badge:"STRENGTH",
+       note:"Heavy compounds, low reps — your body is at peak strength.",
+       ex:[
+         {m:"CHEST",    n:"Barbell Bench Press",      s:4,r:"5–6",  rest:"2 min"},
+         {m:"BACK",     n:"Barbell Row",              s:4,r:"5–6",  rest:"2 min"},
+         {m:"SHOULDERS",n:"Overhead Press",           s:3,r:"6–8",  rest:"90s"},
+         {m:"BACK",     n:"Pull-Ups / Lat Pulldown",  s:3,r:"6–8",  rest:"90s"},
+         {m:"BICEPS",   n:"Barbell or EZ-Bar Curl",   s:3,r:"8",    rest:"75s"},
+         {m:"TRICEPS",  n:"Skull Crushers",           s:3,r:"8",    rest:"75s"},
+       ]},
+      {id:"LA",label:"Lower A",theme:"#FF6B6B",sub:"Strength",day:"Tuesday",badge:"STRENGTH",
+       note:"Heavy lower compounds — squat and hinge strength focus.",
+       ex:[
+         {m:"QUADS",     n:"Barbell Back Squat",      s:4,r:"5–6",   rest:"2 min"},
+         {m:"HAMSTRINGS",n:"Romanian Deadlift",       s:4,r:"6–8",   rest:"90s"},
+         {m:"QUADS",     n:"Leg Press",               s:3,r:"8–10",  rest:"90s"},
+         {m:"CALVES",    n:"Calf Raises",             s:4,r:"12–15", rest:"60s"},
+         {m:"ABS",       n:"Hanging Leg Raises",      s:3,r:"12",    rest:"45s"},
+         {m:"ABS",       n:"Plank",                   s:3,r:"45 sec",rest:"30s"},
+       ]},
+      {id:"UB",label:"Upper B",theme:"#3DDBA8",sub:"Hypertrophy",day:"Thursday",badge:"HYPERTROPHY",
+       note:"Moderate weight, higher reps — muscle building focus.",
+       ex:[
+         {m:"CHEST",    n:"Incline Dumbbell Press",     s:4,r:"10–12",rest:"75s"},
+         {m:"BACK",     n:"Seated Cable Row",           s:4,r:"10–12",rest:"75s"},
+         {m:"SHOULDERS",n:"Dumbbell Lateral Raises",    s:3,r:"12–15",rest:"45s"},
+         {m:"CHEST",    n:"Cable Chest Fly",            s:3,r:"12–15",rest:"60s"},
+         {m:"BICEPS",   n:"Hammer Curls",              s:3,r:"12",   rest:"60s"},
+         {m:"TRICEPS",  n:"Overhead Tricep Extension",  s:3,r:"12–15",rest:"60s"},
+       ]},
+      {id:"LB",label:"Lower B",theme:"#818CF8",sub:"Hypertrophy",day:"Friday",badge:"HYPERTROPHY",
+       note:"Unilateral lower + core — volume, isolation and stability.",
+       ex:[
+         {m:"GLUTES",    n:"Bulgarian Split Squats",  s:3,r:"10–12 each",   rest:"90s"},
+         {m:"QUADS",     n:"Walking Lunges",          s:3,r:"12 each leg",  rest:"75s"},
+         {m:"HAMSTRINGS",n:"Leg Curl (machine)",      s:4,r:"12–15",        rest:"60s"},
+         {m:"QUADS",     n:"Goblet Squat",            s:3,r:"15",           rest:"60s"},
+         {m:"ABS",       n:"Cable Crunch",            s:3,r:"15",           rest:"45s"},
+         {m:"ABS",       n:"Russian Twists",          s:3,r:"20 (10/side)", rest:"45s"},
+         {m:"ABS",       n:"Dead Bug",                s:3,r:"10 each side", rest:"30s"},
+       ]},
     ]
   },
-  {
-    id:"UB",label:"Upper B",theme:"#3DDBA8",sub:"Hypertrophy",day:"Thursday",
-    note:"Moderate weight, higher reps — muscle building focus.",
-    badge:"HYPERTROPHY",badgeBg:"rgba(61,219,168,0.15)",badgeColor:"#3DDBA8",
-    exercises:[
-      {muscle:"CHEST",    name:"Incline Dumbbell Press",   sets:4,reps:"10–12",rest:"75s"},
-      {muscle:"BACK",     name:"Seated Cable Row",         sets:4,reps:"10–12",rest:"75s"},
-      {muscle:"SHOULDERS",name:"Dumbbell Lateral Raises",  sets:3,reps:"12–15",rest:"45s"},
-      {muscle:"CHEST",    name:"Cable Chest Fly",          sets:3,reps:"12–15",rest:"60s"},
-      {muscle:"BICEPS",   name:"Hammer Curls",             sets:3,reps:"12",   rest:"60s"},
-      {muscle:"TRICEPS",  name:"Overhead Tricep Extension",sets:3,reps:"12–15",rest:"60s"},
-    ]
-  },
-  {
-    id:"LB",label:"Lower B",theme:"#818CF8",sub:"Hypertrophy",day:"Friday",
-    note:"Unilateral lower + core — volume, isolation and stability.",
-    badge:"HYPERTROPHY",badgeBg:"rgba(129,140,248,0.15)",badgeColor:"#818CF8",
-    exercises:[
-      {muscle:"GLUTES",   name:"Bulgarian Split Squats",   sets:3,reps:"10–12 each",rest:"90s"},
-      {muscle:"QUADS",    name:"Walking Lunges",           sets:3,reps:"12 each leg",rest:"75s"},
-      {muscle:"HAMSTRINGS",name:"Leg Curl (machine)",      sets:4,reps:"12–15",rest:"60s"},
-      {muscle:"QUADS",    name:"Goblet Squat",             sets:3,reps:"15",   rest:"60s"},
-      {muscle:"ABS",      name:"Cable Crunch",             sets:3,reps:"15",   rest:"45s"},
-      {muscle:"ABS",      name:"Russian Twists",           sets:3,reps:"20 (10 each side)",rest:"45s"},
-      {muscle:"ABS",      name:"Dead Bug",                 sets:3,reps:"10 each side",rest:"30s"},
+
+  "5":{
+    splitName:"5-Day Split",
+    eyebrow:"5-DAY · U / L / PUSH / PULL / LEGS",
+    days:[
+      {id:"U5",label:"Upper",theme:"#C8E600",sub:"Strength",day:"Monday",badge:"STRENGTH",
+       note:"Heavy upper-body compounds — set the strength baseline for chest, back and shoulders.",
+       ex:[
+         {m:"CHEST",    n:"Barbell Bench Press",      s:4,r:"5–6",  rest:"2 min"},
+         {m:"BACK",     n:"Barbell Row",              s:4,r:"6–8",  rest:"90s"},
+         {m:"SHOULDERS",n:"Overhead Press",           s:3,r:"6–8",  rest:"90s"},
+         {m:"BACK",     n:"Pull-Ups / Lat Pulldown",  s:3,r:"8–10", rest:"90s"},
+         {m:"BICEPS",   n:"EZ-Bar Curl",              s:3,r:"8–10", rest:"75s"},
+         {m:"TRICEPS",  n:"Skull Crushers",           s:3,r:"8–10", rest:"75s"},
+       ]},
+      {id:"L5",label:"Lower",theme:"#FF6B6B",sub:"Strength",day:"Tuesday",badge:"STRENGTH",
+       note:"Heavy squat and hinge — build raw lower-body strength and core stability.",
+       ex:[
+         {m:"QUADS",     n:"Barbell Back Squat",      s:4,r:"5–6",   rest:"2 min"},
+         {m:"HAMSTRINGS",n:"Romanian Deadlift",       s:4,r:"6–8",   rest:"90s"},
+         {m:"QUADS",     n:"Leg Press",               s:3,r:"8–10",  rest:"90s"},
+         {m:"CALVES",    n:"Standing Calf Raise",     s:4,r:"10–12", rest:"60s"},
+         {m:"ABS",       n:"Hanging Leg Raises",      s:3,r:"12",    rest:"45s"},
+         {m:"ABS",       n:"Plank",                   s:3,r:"45 sec",rest:"30s"},
+       ]},
+      {id:"PSH",label:"Push",theme:"#3DDBA8",sub:"Hypertrophy",day:"Thursday",badge:"HYPERTROPHY",
+       note:"Second chest & shoulder hit — pump-focused pressing and lateral volume.",
+       ex:[
+         {m:"CHEST",    n:"Incline Dumbbell Press",     s:4,r:"8–10", rest:"90s"},
+         {m:"SHOULDERS",n:"Seated DB Shoulder Press",   s:4,r:"10–12",rest:"75s"},
+         {m:"CHEST",    n:"Cable Chest Fly",            s:3,r:"12–15",rest:"60s"},
+         {m:"SHOULDERS",n:"Dumbbell Lateral Raises",    s:3,r:"12–15",rest:"45s"},
+         {m:"TRICEPS",  n:"Overhead Tricep Extension",  s:3,r:"12–15",rest:"60s"},
+         {m:"TRICEPS",  n:"Rope Pushdown",              s:3,r:"15",   rest:"45s"},
+       ]},
+      {id:"PUL",label:"Pull",theme:"#38BDF8",sub:"Hypertrophy",day:"Friday",badge:"HYPERTROPHY",
+       note:"Second back hit plus direct arm work — width, thickness and biceps.",
+       ex:[
+         {m:"BACK",     n:"Lat Pulldown / Pull-Up",   s:4,r:"8–10",  rest:"90s"},
+         {m:"BACK",     n:"Seated Cable Row",          s:4,r:"10–12", rest:"75s"},
+         {m:"SHOULDERS",n:"Face Pulls",                s:3,r:"15–20", rest:"45s"},
+         {m:"BACK",     n:"Straight-Arm Pulldown",     s:3,r:"12–15", rest:"60s"},
+         {m:"BICEPS",   n:"Incline Dumbbell Curl",     s:3,r:"10–12", rest:"60s"},
+         {m:"BICEPS",   n:"Hammer Curls",              s:3,r:"12",    rest:"45s"},
+       ]},
+      {id:"LEG",label:"Legs",theme:"#818CF8",sub:"Hypertrophy",day:"Saturday",badge:"HYPERTROPHY",
+       note:"Second leg hit — quad, hamstring and glute volume to finish the week.",
+       ex:[
+         {m:"QUADS",     n:"Hack Squat / Front Squat", s:4,r:"8–10",      rest:"90s"},
+         {m:"HAMSTRINGS",n:"Lying Leg Curl",           s:4,r:"10–12",     rest:"75s"},
+         {m:"GLUTES",    n:"Bulgarian Split Squat",    s:3,r:"10–12 each",rest:"90s"},
+         {m:"QUADS",     n:"Leg Extension",            s:3,r:"12–15",     rest:"60s"},
+         {m:"CALVES",    n:"Seated Calf Raise",        s:4,r:"15",        rest:"45s"},
+         {m:"ABS",       n:"Cable Crunch",             s:3,r:"15",        rest:"45s"},
+       ]},
     ]
   }
-];
+};
 
-let activeDay="UA",isDark=true;
+/* ===== STATE ===== */
+const LS={name:"wk_name",routine:"wk_routine",theme:"wk_theme"};
+let name=localStorage.getItem(LS.name)||"";
+let routineKey=ROUTINES[localStorage.getItem(LS.routine)]?localStorage.getItem(LS.routine):"4";
+let isDark=(localStorage.getItem(LS.theme)||"dark")!=="light";
+let activeDay=null;
+let obRoutine="4", setRoutine=routineKey, setTheme=isDark?"dark":"light";
+
+function currentRoutine(){return ROUTINES[routineKey]}
 function cap(s){return s[0]+s.slice(1).toLowerCase()}
-function setDayColor(c){
-  document.documentElement.style.setProperty("--day-color",c);
-  document.querySelectorAll(".note-dash").forEach(el=>el.style.color=c);
+function rgba(hex,a){const h=hex.replace("#","");return `rgba(${parseInt(h.substr(0,2),16)},${parseInt(h.substr(2,2),16)},${parseInt(h.substr(4,2),16)},${a})`}
+function setDayColor(c){document.documentElement.style.setProperty("--day-color",c);document.querySelectorAll(".note-dash").forEach(el=>el.style.color=c)}
+function greeting(){const h=new Date().getHours();return h<12?"Good morning":h<18?"Good afternoon":"Good evening"}
+
+/* ===== RENDER ===== */
+function renderHeader(){
+  const R=currentRoutine();
+  document.getElementById("eyebrow").textContent=R.eyebrow;
+  document.getElementById("title").textContent=`${greeting()}, ${name}`;
 }
 
 function renderScheduleStrip(){
-  document.getElementById("schedule-strip").innerHTML=schedule.map(s=>
-    `<div class="sched-day ${s.id===activeDay?'highlight':''}">
-      <div class="sd-day">${s.day}</div>
-      <div class="sd-name">${s.name}</div>
+  const R=currentRoutine(),strip=document.getElementById("schedule-strip");
+  strip.style.gridTemplateColumns=`repeat(${R.days.length},1fr)`;
+  strip.innerHTML=R.days.map(d=>
+    `<div class="sched-day ${d.id===activeDay?'highlight':''}">
+      <div class="sd-day">${ABBR[d.day]}</div>
+      <div class="sd-name">${d.label}</div>
     </div>`
   ).join("");
 }
 
 function renderLegend(){
-  const day=days.find(d=>d.id===activeDay);
+  const day=currentRoutine().days.find(d=>d.id===activeDay);
   const seen=new Set(),items=[];
-  day.exercises.forEach(ex=>{if(!seen.has(ex.muscle)){seen.add(ex.muscle);items.push(ex.muscle)}});
+  day.ex.forEach(e=>{if(!seen.has(e.m)){seen.add(e.m);items.push(e.m)}});
   document.getElementById("legend").innerHTML=items.map(m=>
     `<div class="legend-item">
       <div class="legend-dot" style="background:${muscleColor[m]}"></div>
@@ -266,7 +465,9 @@ function renderLegend(){
 }
 
 function renderTabs(){
-  document.getElementById("day-tabs").innerHTML=days.map(d=>
+  const R=currentRoutine(),tabs=document.getElementById("day-tabs");
+  tabs.style.gridTemplateColumns=`repeat(${R.days.length},1fr)`;
+  tabs.innerHTML=R.days.map(d=>
     `<button class="day-tab ${d.id===activeDay?'active':''}"
       style="${d.id===activeDay?`background:${d.theme};`:''}"
       onclick="selectDay('${d.id}')">
@@ -277,69 +478,142 @@ function renderTabs(){
 }
 
 function renderExercises(){
-  const day=days.find(d=>d.id===activeDay);
+  const day=currentRoutine().days.find(d=>d.id===activeDay);
   setDayColor(day.theme);
   document.getElementById("day-note").innerHTML=
-    `<span class="day-badge" style="background:${day.badgeBg};color:${day.badgeColor}">${day.badge}</span>
+    `<span class="day-badge" style="background:${rgba(day.theme,0.15)};color:${day.theme}">${day.badge}</span>
      <span>${day.day} — ${day.note}</span>`;
-  document.getElementById("exercise-list").innerHTML=day.exercises.map(ex=>
+  document.getElementById("exercise-list").innerHTML=day.ex.map(e=>
     `<div class="ex-row">
-      <div class="bar" style="background:${muscleColor[ex.muscle]}"></div>
+      <div class="bar" style="background:${muscleColor[e.m]}"></div>
       <div>
-        <div class="ex-name">${ex.name}</div>
-        <span class="ex-tag" style="color:${muscleColor[ex.muscle]}">${cap(ex.muscle)}</span>
+        <div class="ex-name">${e.n}</div>
+        <span class="ex-tag" style="color:${muscleColor[e.m]}">${cap(e.m)}</span>
       </div>
-      <div class="sets-num" style="color:${day.theme}">${ex.sets}</div>
-      <div class="reps-num">${ex.reps}</div>
-      <div class="rest-num">${ex.rest}</div>
+      <div class="sets-num" style="color:${day.theme}">${e.s}</div>
+      <div class="reps-num">${e.r}</div>
+      <div class="rest-num">${e.rest}</div>
     </div>`
   ).join("");
   document.getElementById("total-val").textContent=
-    `${day.exercises.reduce((a,e)=>a+e.sets,0)} sets · ${day.exercises.length} exercises`;
+    `${day.ex.reduce((a,e)=>a+e.s,0)} sets · ${day.ex.length} exercises`;
 }
 
 function renderRecovery(){
-  const day=days.find(d=>d.id===activeDay);
-  // Only show recovery on LB (last day of week, late night session)
+  const R=currentRoutine();
+  const lastId=R.days[R.days.length-1].id;
   const box=document.getElementById("recovery-box");
-  if(day.id==="LB"){
+  if(activeDay===lastId){
     box.style.display="block";
-    box.innerHTML=`<div class="recovery-header">🌙 Night Training Recovery Protocol</div>`+
+    box.innerHTML=`<div class="recovery-header">♻️ Recovery Essentials</div>`+
       recovery.map(r=>`<div class="recovery-item">
         <div class="recovery-icon">${r.icon}</div>
         <div class="recovery-text"><strong>${r.title}</strong> — ${r.text}</div>
       </div>`).join("");
-  } else {
-    box.style.display="none";
-  }
+  } else { box.style.display="none"; }
+}
+
+function renderNotes(){
+  const notes=[
+    `${name}, every muscle group is trained <b>2× a week</b> — frequency is what drives growth.`,
+    `Progressive overload: add weight or a rep when you hit the top of the range on all sets.`,
+    `Leave 1–2 reps in reserve on compounds; push your last set of isolation work close to failure.`,
+    `Warm up 5–10 min and do 2 light ramp-up sets before your first heavy compound.`,
+    `Rest days are part of the plan — that's when the muscle is actually rebuilt.`
+  ];
+  document.getElementById("notes-box").innerHTML=
+    `<div class="notes-title">Protocol Notes</div>`+
+    notes.map(t=>`<div class="note-item"><span class="note-dash" style="color:var(--day-color)">—</span><span>${t.replace(/<b>/g,'<strong style="color:var(--text);font-weight:600">').replace(/<\/b>/g,'</strong>')}</span></div>`).join("");
 }
 
 function render(){
+  if(!activeDay||!currentRoutine().days.some(d=>d.id===activeDay)) activeDay=currentRoutine().days[0].id;
+  renderHeader();
   renderScheduleStrip();
   renderTabs();
   renderLegend();
   renderExercises();
   renderRecovery();
+  renderNotes();
+  document.getElementById("splash-sub").textContent=currentRoutine().splitName;
 }
 
 function selectDay(id){activeDay=id;render()}
 
-function toggleTheme(){
-  isDark=!isDark;
+/* ===== THEME ===== */
+function applyTheme(){
   document.documentElement.classList.toggle("light",!isDark);
   document.getElementById("theme-icon").textContent=isDark?"☀︎":"☾";
-  document.getElementById("theme-label").textContent=isDark?"Light":"Dark";
   document.querySelector('meta[name="theme-color"]').content=isDark?"#111113":"#F7F6F2";
 }
-
-function hideSplash(){
-  const s=document.getElementById("splash");
-  s.classList.add("fade");
-  setTimeout(()=>s.classList.add("gone"),520);
+function toggleTheme(){
+  isDark=!isDark;
+  localStorage.setItem(LS.theme,isDark?"dark":"light");
+  applyTheme();
 }
 
-render();
+/* ===== SEGMENTED CONTROL ===== */
+function buildSeg(containerId,selected){
+  const opts=[["3","3-Day","Full Body+"],["4","4-Day","Upper/Lower"],["5","5-Day","PPL Hybrid"]];
+  document.getElementById(containerId).innerHTML=opts.map(([v,l,s])=>
+    `<button class="${v===selected?'on':''}" onclick="segPick('${containerId}','${v}')">
+       <span>${l}</span><span class="seg-sub">${s}</span></button>`).join("");
+}
+function segPick(containerId,v){
+  if(containerId==="ob-seg") obRoutine=v; else setRoutine=v;
+  buildSeg(containerId,v);
+}
+
+/* ===== ONBOARDING ===== */
+function showOnboard(){
+  obRoutine="4";
+  buildSeg("ob-seg",obRoutine);
+  document.getElementById("onboard").classList.remove("hide");
+}
+function completeOnboarding(){
+  const v=document.getElementById("ob-name").value.trim();
+  if(!v) return;
+  name=v; routineKey=obRoutine;
+  localStorage.setItem(LS.name,name);
+  localStorage.setItem(LS.routine,routineKey);
+  localStorage.setItem(LS.theme,isDark?"dark":"light");
+  activeDay=currentRoutine().days[0].id;
+  document.getElementById("onboard").classList.add("hide");
+  render();
+}
+
+/* ===== SETTINGS ===== */
+function pickTheme(t){
+  setTheme=t;
+  document.querySelectorAll("#set-theme button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
+}
+function openSettings(){
+  document.getElementById("set-name").value=name;
+  setRoutine=routineKey; buildSeg("set-seg",setRoutine);
+  setTheme=isDark?"dark":"light"; pickTheme(setTheme);
+  document.getElementById("settings").classList.add("show");
+}
+function closeSettings(){document.getElementById("settings").classList.remove("show")}
+function saveSettings(){
+  const v=document.getElementById("set-name").value.trim();
+  if(v) name=v;
+  const routineChanged=setRoutine!==routineKey;
+  routineKey=setRoutine;
+  isDark=setTheme==="dark";
+  localStorage.setItem(LS.name,name);
+  localStorage.setItem(LS.routine,routineKey);
+  localStorage.setItem(LS.theme,isDark?"dark":"light");
+  if(routineChanged) activeDay=currentRoutine().days[0].id;
+  applyTheme();
+  closeSettings();
+  render();
+}
+
+/* ===== INIT ===== */
+applyTheme();
+if(name){ render(); } else { render(); showOnboard(); }
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+function hideSplash(){const s=document.getElementById("splash");s.classList.add("fade");setTimeout(()=>s.classList.add("gone"),520);}
 window.addEventListener("load",()=>setTimeout(hideSplash,1200));
 </script>
 </body>

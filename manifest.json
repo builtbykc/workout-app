@@ -1,7 +1,7 @@
 {
-  "name": "Full Body Split",
+  "name": "Workout",
   "short_name": "Workout",
-  "description": "4-day Upper/Lower workout split",
+  "description": "Personalized 3, 4 or 5-day workout split",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
