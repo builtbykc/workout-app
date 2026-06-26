@@ -30,7 +30,10 @@
     html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;transition:var(--tr)}
 
     /* SPLASH */
-    #splash{position:fixed;inset:0;z-index:200;background:#111113;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity 0.5s ease}
+    #splash{position:fixed;inset:0;z-index:200;background:#111113;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity 0.5s ease;overflow:hidden}
+    #splash-bg{position:absolute;inset:0;background:url('splash-bg.jpg') center/cover no-repeat;z-index:0}
+    #splash-bg::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.58)}
+    #splash > *:not(#splash-bg){position:relative;z-index:1}
     #splash.fade{opacity:0;pointer-events:none}
     #splash.gone{display:none}
     .splash-icon svg{width:68px;height:68px}
@@ -72,11 +75,6 @@
     .sheet::-webkit-scrollbar{display:none}
     .grab{width:38px;height:4px;border-radius:4px;background:var(--border);margin:0 auto 18px}
     .sheet-title{font-size:19px;font-weight:800;letter-spacing:-0.3px;margin-bottom:22px}
-    .theme-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:13px;transition:var(--tr)}
-    .theme-row span{font-size:14px;font-weight:600}
-    .mini-toggle{display:flex;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:4px}
-    .mini-toggle button{padding:7px 13px;border:none;border-radius:6px;background:transparent;color:var(--sub);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr)}
-    .mini-toggle button.on{background:var(--accent);color:#000}
 
     /* LAYOUT */
     #app{max-width:480px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
@@ -89,14 +87,6 @@
     .h-actions{display:flex;gap:8px;flex-shrink:0;margin-left:12px}
     .icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);border-radius:11px;cursor:pointer;font-size:16px;color:var(--sub);transition:var(--tr)}
 
-    /* SCHEDULE STRIP */
-    .schedule-strip{display:grid;gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
-    .sched-day{padding:10px 6px;background:var(--surface);text-align:center;transition:var(--tr)}
-    .sched-day .sd-day{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
-    .sched-day .sd-name{font-size:11px;font-weight:600;color:var(--sub);line-height:1.2}
-    .sched-day.highlight .sd-day{color:var(--day-color)}
-    .sched-day.highlight .sd-name{color:var(--text)}
-
     /* LEGEND */
     .legend{display:flex;flex-wrap:wrap;gap:7px 11px;padding:10px 20px;border-bottom:1px solid var(--border2);background:var(--surface2);transition:var(--tr);min-height:36px}
     .legend-item{display:flex;align-items:center;gap:5px}
@@ -105,8 +95,10 @@
 
     /* DAY TABS */
     .day-tabs{display:grid;gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
-    .day-tab{padding:11px 3px;background:var(--surface);color:var(--muted);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;font-size:11px;transition:background 0.15s,color 0.15s;display:flex;flex-direction:column;align-items:center;gap:2px}
+    .day-tab{padding:10px 3px;background:var(--surface);color:var(--muted);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.15s,color 0.15s;display:flex;flex-direction:column;align-items:center;gap:2px}
     .day-tab.active{color:#000}
+    .day-tab .tab-day{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;opacity:0.55}
+    .day-tab .tab-name{font-size:12px;font-weight:700;line-height:1.15}
     .day-tab .tab-sub{font-size:8px;font-weight:600;letter-spacing:0.5px;opacity:0.65;text-transform:uppercase}
 
     /* DAY NOTE */
@@ -152,6 +144,7 @@
 <body>
 
 <div id="splash">
+  <div id="splash-bg"></div>
   <div class="splash-icon">
     <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="28" y="31" width="16" height="10" rx="2" fill="#C8E600"/>
@@ -209,16 +202,6 @@
     <div class="seg" id="set-seg"></div>
 
     <div class="gap"></div>
-    <label class="lbl">Appearance</label>
-    <div class="theme-row">
-      <span>Theme</span>
-      <div class="mini-toggle" id="set-theme">
-        <button data-t="dark" onclick="pickTheme('dark')">Dark</button>
-        <button data-t="light" onclick="pickTheme('light')">Light</button>
-      </div>
-    </div>
-
-    <div class="gap"></div>
     <button class="btn-primary" onclick="saveSettings()">Save</button>
     <div style="height:10px"></div>
     <button class="btn-ghost" onclick="closeSettings()">Cancel</button>
@@ -238,7 +221,6 @@
   </div>
 
   <div class="scroll-area">
-    <div class="schedule-strip" id="schedule-strip"></div>
     <div class="legend" id="legend"></div>
     <div class="day-tabs" id="day-tabs"></div>
     <div class="day-note" id="day-note"></div>
@@ -426,7 +408,7 @@ let name=localStorage.getItem(LS.name)||"";
 let routineKey=ROUTINES[localStorage.getItem(LS.routine)]?localStorage.getItem(LS.routine):"4";
 let isDark=(localStorage.getItem(LS.theme)||"dark")!=="light";
 let activeDay=null;
-let obRoutine="4", setRoutine=routineKey, setTheme=isDark?"dark":"light";
+let obRoutine="4", setRoutine=routineKey;
 
 function currentRoutine(){return ROUTINES[routineKey]}
 function cap(s){return s[0]+s.slice(1).toLowerCase()}
@@ -439,17 +421,6 @@ function renderHeader(){
   const R=currentRoutine();
   document.getElementById("eyebrow").textContent=R.eyebrow;
   document.getElementById("title").textContent=`${greeting()}, ${name}`;
-}
-
-function renderScheduleStrip(){
-  const R=currentRoutine(),strip=document.getElementById("schedule-strip");
-  strip.style.gridTemplateColumns=`repeat(${R.days.length},1fr)`;
-  strip.innerHTML=R.days.map(d=>
-    `<div class="sched-day ${d.id===activeDay?'highlight':''}">
-      <div class="sd-day">${ABBR[d.day]}</div>
-      <div class="sd-name">${d.label}</div>
-    </div>`
-  ).join("");
 }
 
 function renderLegend(){
@@ -471,7 +442,8 @@ function renderTabs(){
     `<button class="day-tab ${d.id===activeDay?'active':''}"
       style="${d.id===activeDay?`background:${d.theme};`:''}"
       onclick="selectDay('${d.id}')">
-      ${d.label}
+      <span class="tab-day">${ABBR[d.day]}</span>
+      <span class="tab-name">${d.label}</span>
       <span class="tab-sub">${d.sub}</span>
     </button>`
   ).join("");
@@ -500,17 +472,13 @@ function renderExercises(){
 }
 
 function renderRecovery(){
-  const R=currentRoutine();
-  const lastId=R.days[R.days.length-1].id;
   const box=document.getElementById("recovery-box");
-  if(activeDay===lastId){
-    box.style.display="block";
-    box.innerHTML=`<div class="recovery-header">♻️ Recovery Essentials</div>`+
-      recovery.map(r=>`<div class="recovery-item">
-        <div class="recovery-icon">${r.icon}</div>
-        <div class="recovery-text"><strong>${r.title}</strong> — ${r.text}</div>
-      </div>`).join("");
-  } else { box.style.display="none"; }
+  box.style.display="block";
+  box.innerHTML=`<div class="recovery-header">♻️ Recovery Essentials</div>`+
+    recovery.map(r=>`<div class="recovery-item">
+      <div class="recovery-icon">${r.icon}</div>
+      <div class="recovery-text"><strong>${r.title}</strong> — ${r.text}</div>
+    </div>`).join("");
 }
 
 function renderNotes(){
@@ -529,7 +497,6 @@ function renderNotes(){
 function render(){
   if(!activeDay||!currentRoutine().days.some(d=>d.id===activeDay)) activeDay=currentRoutine().days[0].id;
   renderHeader();
-  renderScheduleStrip();
   renderTabs();
   renderLegend();
   renderExercises();
@@ -583,14 +550,9 @@ function completeOnboarding(){
 }
 
 /* ===== SETTINGS ===== */
-function pickTheme(t){
-  setTheme=t;
-  document.querySelectorAll("#set-theme button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
-}
 function openSettings(){
   document.getElementById("set-name").value=name;
   setRoutine=routineKey; buildSeg("set-seg",setRoutine);
-  setTheme=isDark?"dark":"light"; pickTheme(setTheme);
   document.getElementById("settings").classList.add("show");
 }
 function closeSettings(){document.getElementById("settings").classList.remove("show")}
@@ -599,12 +561,9 @@ function saveSettings(){
   if(v) name=v;
   const routineChanged=setRoutine!==routineKey;
   routineKey=setRoutine;
-  isDark=setTheme==="dark";
   localStorage.setItem(LS.name,name);
   localStorage.setItem(LS.routine,routineKey);
-  localStorage.setItem(LS.theme,isDark?"dark":"light");
   if(routineChanged) activeDay=currentRoutine().days[0].id;
-  applyTheme();
   closeSettings();
   render();
 }
